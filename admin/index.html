@@ -1,11 +1,138 @@
 <!doctype html>
-<html>
+<html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel Edén Nails Bar</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel Edén Nails</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#c9a96e;--gold2:#a67b36;--dark:#15110f;--beige:#f5eee5;--ink:#2b221d;--muted:#6b625d}
+*{box-sizing:border-box}body{margin:0;font-family:'DM Sans',sans-serif;background:linear-gradient(180deg,#fffaf4,#f5eee5);color:var(--ink)}h1,h2,h3{font-family:'Playfair Display',serif;margin:0;color:var(--dark)}.login{min-height:100vh;display:grid;place-items:center;padding:20px}.box{width:min(520px,100%);background:white;border:1px solid rgba(201,169,110,.38);border-radius:28px;padding:30px;box-shadow:0 25px 70px rgba(0,0,0,.12)}.box h1{font-size:42px;margin-bottom:12px}.muted{color:var(--muted);line-height:1.6}.field{display:grid;gap:7px;margin:14px 0}label{font-weight:800}input,textarea,select{width:100%;padding:13px 14px;border-radius:14px;border:1px solid rgba(201,169,110,.5);font:inherit;background:#fff}textarea{min-height:90px}.btn{border:0;border-radius:999px;padding:13px 18px;font-weight:900;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--gold2));color:white;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}.btn.secondary{background:white;color:var(--ink);border:1px solid rgba(201,169,110,.45)}.btn.danger{background:#8b1e1e}.app{display:none}.top{position:sticky;top:0;z-index:10;background:rgba(255,250,244,.88);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,169,110,.25);padding:14px 18px}.top-inner{max-width:1180px;margin:auto;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}.tabs{display:flex;gap:8px;flex-wrap:wrap}.tab{border:1px solid rgba(201,169,110,.45);background:white;border-radius:999px;padding:9px 13px;font-weight:800;cursor:pointer}.tab.active{background:var(--dark);color:white}.wrap{max-width:1180px;margin:auto;padding:24px 18px 70px}.panel{display:none}.panel.active{display:block}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}.card{background:white;border:1px solid rgba(201,169,110,.32);border-radius:22px;padding:18px;box-shadow:0 12px 35px rgba(0,0,0,.06)}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.list{display:grid;gap:14px}.item{border:1px solid rgba(201,169,110,.25);border-radius:18px;padding:14px;background:#fffaf4}.preview{height:120px;object-fit:cover;border-radius:14px;border:1px solid #ead8be}.notice{background:#fff8e8;border:1px solid rgba(201,169,110,.5);border-radius:18px;padding:14px;margin:14px 0;color:#5c4624}.ok{display:none;background:#eefbf2;border:1px solid #9bd7aa;border-radius:16px;padding:12px;margin:12px 0;font-weight:800;color:#255c31}.small{font-size:12px;color:var(--muted)}code{background:#f5eee5;padding:2px 6px;border-radius:6px}
+</style>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+<section class="login" id="login">
+  <div class="box">
+    <h1>Panel Edén</h1>
+    <p class="muted">Acceso privado para administrar contenido. Contraseña inicial: <b>eden2026</b>. Luego puedes cambiarla desde este panel.</p>
+    <div class="field"><label>Contraseña</label><input id="pass" type="password" placeholder="Ingresa tu contraseña"></div>
+    <button class="btn" onclick="login()">Entrar</button>
+    <p class="small">Este panel funciona sin Decap, sin Identity y sin Git Gateway.</p>
+  </div>
+</section>
+
+<section class="app" id="app">
+  <div class="top">
+    <div class="top-inner">
+      <strong>Edén Nails · Panel</strong>
+      <div class="tabs">
+        <button class="tab active" data-tab="general">General</button>
+        <button class="tab" data-tab="services">Servicios</button>
+        <button class="tab" data-tab="promos">Promos</button>
+        <button class="tab" data-tab="gallery">Galería</button>
+        <button class="tab" data-tab="videos">Videos</button>
+        <button class="tab" data-tab="referrals">Referidas</button>
+        <button class="tab" data-tab="clients">Clientas</button>
+        <button class="tab" data-tab="export">Publicar cambios</button>
+      </div>
+      <button class="btn secondary" onclick="logout()">Salir</button>
+    </div>
+  </div>
+  <main class="wrap">
+    <div class="notice">
+      Los cambios se guardan en este navegador para que puedas prepararlos. Para publicarlos definitivamente en la web, entra a <b>Publicar cambios</b>, descarga los archivos JSON y súbelos a GitHub en la carpeta <code>content</code>. 
+    </div>
+    <div class="ok" id="saved">Guardado.</div>
+
+    <section class="panel active" id="general"></section>
+    <section class="panel" id="services"></section>
+    <section class="panel" id="promos"></section>
+    <section class="panel" id="gallery"></section>
+    <section class="panel" id="videos"></section>
+    <section class="panel" id="referrals"></section>
+    <section class="panel" id="clients"></section>
+    <section class="panel" id="export"></section>
+  </main>
+</section>
+
+<script>
+const DEFAULT_PASS="eden2026";
+function getPass(){return localStorage.getItem("eden_admin_pass")||DEFAULT_PASS}
+function login(){if(document.getElementById("pass").value===getPass()){localStorage.setItem("eden_admin_in","1");boot()}else alert("Contraseña incorrecta")}
+function logout(){localStorage.removeItem("eden_admin_in");location.reload()}
+async function fetchJSON(path,fallback){try{return await (await fetch(path)).json()}catch(e){return fallback}}
+function save(key,data){localStorage.setItem("eden_"+key,JSON.stringify(data));showSaved(); render();}
+function load(key, fallback){try{return JSON.parse(localStorage.getItem("eden_"+key))||fallback}catch(e){return fallback}}
+function showSaved(){let s=document.getElementById("saved");s.style.display="block";setTimeout(()=>s.style.display="none",1600)}
+function esc(s){return (s||"").toString().replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
+function field(label, value, onchange, type="text"){return `<div class="field"><label>${label}</label><input type="${type}" value="${esc(value)}" onchange="${onchange.replaceAll('"','&quot;')}(this.value)"></div>`}
+function textfield(label,value,onchange){return `<div class="field"><label>${label}</label><textarea onchange="${onchange.replaceAll('"','&quot;')}(this.value)">${esc(value)}</textarea></div>`}
+function download(name, content){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content],{type:"application/json"}));a.download=name;a.click();URL.revokeObjectURL(a.href)}
+function imgPreview(src){return src?`<img class="preview" src="${esc(src)}">`:""}
+
+let settings, services, promotions, gallery, videos, referrals;
+
+async function boot(){
+ document.getElementById("login").style.display="none"; document.getElementById("app").style.display="block";
+ settings=load("settings", await fetchJSON("/content/settings.json",{}));
+ services=load("services", await fetchJSON("/content/services.json",[]));
+ promotions=load("promotions", await fetchJSON("/content/promotions.json",[]));
+ gallery=load("gallery", await fetchJSON("/content/gallery.json",[]));
+ videos=load("videos", await fetchJSON("/content/videos.json",[]));
+ referrals=load("referrals", await fetchJSON("/content/referrals.json",{}));
+ render();
+}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{document.querySelectorAll(".tab,.panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.getElementById(b.dataset.tab).classList.add("active")});
+
+function render(){
+ renderGeneral(); renderServices(); renderPromos(); renderGallery(); renderVideos(); renderReferrals(); renderClients(); renderExport();
+}
+function renderGeneral(){
+ document.getElementById("general").innerHTML=`<h2>Configuración general</h2><div class="grid"><div class="card">
+ ${field("Marca",settings.brand||"","v=>{settings.brand=v;save('settings',settings)}")}
+ ${field("Frase principal",settings.tagline||"","v=>{settings.tagline=v;save('settings',settings)}")}
+ ${field("Ciudad",settings.city||"","v=>{settings.city=v;save('settings',settings)}")}
+ ${field("Imagen portada (ruta)",settings.hero_image||"","v=>{settings.hero_image=v;save('settings',settings)}")}
+ ${field("WhatsApp",settings.whatsapp||"","v=>{settings.whatsapp=v;save('settings',settings)}")}
+ ${field("Instagram",settings.instagram||"","v=>{settings.instagram=v;save('settings',settings)}")}
+ ${field("TikTok",settings.tiktok||"","v=>{settings.tiktok=v;save('settings',settings)}")}
+ ${field("Google Maps",settings.maps||"","v=>{settings.maps=v;save('settings',settings)}")}
+ ${field("Cambiar contraseña del panel",getPass(),"v=>{localStorage.setItem('eden_admin_pass',v);showSaved()}","text")}
+ </div><div class="card">${imgPreview(settings.hero_image)}<p class="small">Para cambiar imágenes desde este panel, primero sube la imagen a GitHub en <code>assets/images</code> y luego pega aquí la ruta, por ejemplo <code>/assets/images/nueva-foto.jpg</code>.</p></div></div>`;
+}
+function renderList(container, arr, key, template, addItem){
+ document.getElementById(container).innerHTML=template(arr)+`<br><button class="btn" onclick="${addItem}">Agregar</button>`;
+}
+function renderServices(){
+ renderList("services",services,"services",arr=>`<h2>Servicios</h2><div class="list">${arr.map((s,i)=>`<div class="item"><div class="row">${imgPreview(s.image)}<button class="btn danger" onclick="services.splice(${i},1);save('services',services)">Eliminar</button></div>${field("Nombre",s.title||"",`v=>{services[${i}].title=v;save('services',services)}`)}${field("Precio",s.price||"",`v=>{services[${i}].price=v;save('services',services)}`)}${textfield("Descripción",s.description||"",`v=>{services[${i}].description=v;save('services',services)}`)}${field("Imagen",s.image||"",`v=>{services[${i}].image=v;save('services',services)}`)}</div>`).join("")}</div>`,`services.push({title:'Nuevo servicio',price:'',description:'',image:'/assets/images/soft-gel.jpg',featured:true});save('services',services)`);
+}
+function renderPromos(){
+ renderList("promos",promotions,"promotions",arr=>`<h2>Promociones</h2><div class="list">${arr.map((p,i)=>`<div class="item">${imgPreview(p.image)}<button class="btn danger" onclick="promotions.splice(${i},1);save('promotions',promotions)">Eliminar</button>${field("Título",p.title||"",`v=>{promotions[${i}].title=v;save('promotions',promotions)}`)}${textfield("Descripción",p.description||"",`v=>{promotions[${i}].description=v;save('promotions',promotions)}`)}${field("Imagen",p.image||"",`v=>{promotions[${i}].image=v;save('promotions',promotions)}`)}</div>`).join("")}</div>`,`promotions.push({title:'Nueva promoción',description:'',image:'/assets/images/hero.jpg',button_text:'Reservar',active:true});save('promotions',promotions)`);
+}
+function renderGallery(){
+ renderList("gallery",gallery,"gallery",arr=>`<h2>Galería</h2><div class="list">${arr.map((g,i)=>`<div class="item">${imgPreview(g.image)}<button class="btn danger" onclick="gallery.splice(${i},1);save('gallery',gallery)">Eliminar</button>${field("Título",g.title||"",`v=>{gallery[${i}].title=v;save('gallery',gallery)}`)}${field("Imagen",g.image||"",`v=>{gallery[${i}].image=v;save('gallery',gallery)}`)}</div>`).join("")}</div>`,`gallery.push({title:'Nueva foto',image:'/assets/images/hero.jpg'});save('gallery',gallery)`);
+}
+function renderVideos(){
+ renderList("videos",videos,"videos",arr=>`<h2>Videos</h2><p class="muted">Sube el MP4 a GitHub en <code>assets/videos</code> y pega aquí la ruta, por ejemplo <code>/assets/videos/reel1.mp4</code>.</p><div class="list">${arr.map((v,i)=>`<div class="item"><button class="btn danger" onclick="videos.splice(${i},1);save('videos',videos)">Eliminar</button>${field("Título",v.title||"",`x=>{videos[${i}].title=x;save('videos',videos)}`)}${textfield("Descripción",v.description||"",`x=>{videos[${i}].description=x;save('videos',videos)}`)}${field("Video MP4",v.video||"",`x=>{videos[${i}].video=x;save('videos',videos)}`)}${field("Link alternativo",v.link||"",`x=>{videos[${i}].link=x;save('videos',videos)}`)}</div>`).join("")}</div>`,`videos.push({title:'Nuevo video',description:'',video:'/assets/videos/video.mp4',link:'',active:true});save('videos',videos)`);
+}
+function renderReferrals(){
+ document.getElementById("referrals").innerHTML=`<h2>Referidas</h2><div class="card">${field("Título",referrals.title||"",`v=>{referrals.title=v;save('referrals',referrals)}`)}${textfield("Introducción",referrals.intro||"",`v=>{referrals.intro=v;save('referrals',referrals)}`)}<h3>Reglas</h3><div class="list">${(referrals.rules||[]).map((r,i)=>`<div class="item">${field("Regla",r,`v=>{referrals.rules[${i}]=v;save('referrals',referrals)}`)}<button class="btn danger" onclick="referrals.rules.splice(${i},1);save('referrals',referrals)">Eliminar</button></div>`).join("")}</div><button class="btn" onclick="referrals.rules=referrals.rules||[];referrals.rules.push('Nueva regla');save('referrals',referrals)">Agregar regla</button></div>`;
+}
+function renderClients(){
+ document.getElementById("clients").innerHTML=`<h2>Clientas y referidos</h2><div class="notice">Los formularios reales se ven en Netlify → Forms/Formularios. Este panel incluye instrucciones y el acceso rápido.</div><div class="grid"><div class="card"><h3>Códigos creados</h3><p>Formulario: <b>referidas-eden</b></p></div><div class="card"><h3>Códigos usados</h3><p>Formulario: <b>uso-codigo-eden</b></p></div></div>`;
+}
+function renderExport(){
+ document.getElementById("export").innerHTML=`<h2>Publicar cambios</h2><div class="notice">Descarga cada archivo y súbelo a GitHub reemplazando el archivo del mismo nombre dentro de la carpeta <code>content</code>.</div><div class="grid">
+ <button class="btn" onclick="download('settings.json',JSON.stringify(settings,null,2))">Descargar settings.json</button>
+ <button class="btn" onclick="download('services.json',JSON.stringify(services,null,2))">Descargar services.json</button>
+ <button class="btn" onclick="download('promotions.json',JSON.stringify(promotions,null,2))">Descargar promotions.json</button>
+ <button class="btn" onclick="download('gallery.json',JSON.stringify(gallery,null,2))">Descargar gallery.json</button>
+ <button class="btn" onclick="download('videos.json',JSON.stringify(videos,null,2))">Descargar videos.json</button>
+ <button class="btn" onclick="download('referrals.json',JSON.stringify(referrals,null,2))">Descargar referrals.json</button>
+ </div><p class="muted">Esta versión evita Netlify Identity. Es más estable, pero los cambios del panel se publican reemplazando los JSON descargados en GitHub.</p>`;
+}
+if(localStorage.getItem("eden_admin_in")==="1") boot();
+</script>
 </body>
 </html>
