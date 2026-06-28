@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Video destacado",
+    "description": "Sube aquí un video MP4 desde el panel administrativo.",
+    "video": "",
+    "link": "https://www.instagram.com/edennailsbar",
+    "active": true
+  },
+  {
+    "title": "Últimos Reels",
+    "description": "También puedes usar enlaces a Instagram o TikTok para que la web cargue más rápido.",
+    "video": "",
+    "link": "https://www.tiktok.com/@eden.nailbar.scz",
+    "active": true
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Blindaje en Gel",
+    "price": "170 Bs",
+    "description": "Ideal para uñas naturales fuertes, elegantes y brillantes.",
+    "image": "/assets/images/blindaje.jpg",
+    "featured": true
+  },
+  {
+    "title": "Soft Gel",
+    "price": "190 Bs",
+    "description": "Uñas listas al instante, naturales, cómodas y duraderas.",
+    "image": "/assets/images/soft-gel.jpg",
+    "featured": true
+  },
+  {
+    "title": "Esculpidas en Gel",
+    "price": "Desde 200 Bs",
+    "description": "Extensiones finas, resistentes y personalizadas.",
+    "image": "/assets/images/esculpidas.jpg",
+    "featured": true
+  },
+  {
+    "title": "Pestañas",
+    "price": "Lanzamiento 130 Bs",
+    "description": "Mirada definida, femenina y natural.",
+    "image": "/assets/images/pestanas.jpg",
+    "featured": true
+  }
+]

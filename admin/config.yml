@@ -1,0 +1,97 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+collections:
+  - name: "contenido"
+    label: "Contenido principal"
+    files:
+      - label: "Configuración general"
+        name: "settings"
+        file: "content/settings.json"
+        format: "json"
+        fields:
+          - {label: "Marca", name: "brand", widget: "string"}
+          - {label: "Frase principal", name: "tagline", widget: "string"}
+          - {label: "Ciudad", name: "city", widget: "string"}
+          - {label: "Imagen de portada", name: "hero_image", widget: "image"}
+          - {label: "WhatsApp", name: "whatsapp", widget: "string"}
+          - {label: "Instagram", name: "instagram", widget: "string"}
+          - {label: "TikTok", name: "tiktok", widget: "string"}
+          - {label: "Google Maps", name: "maps", widget: "string"}
+          - {label: "Título de introducción", name: "intro_title", widget: "string"}
+          - {label: "Texto de introducción", name: "intro_text", widget: "text"}
+
+      - label: "Servicios"
+        name: "services"
+        file: "content/services.json"
+        format: "json"
+        fields:
+          - label: "Servicios"
+            name: ""
+            widget: "list"
+            fields:
+              - {label: "Nombre", name: "title", widget: "string"}
+              - {label: "Precio", name: "price", widget: "string"}
+              - {label: "Descripción", name: "description", widget: "text"}
+              - {label: "Imagen", name: "image", widget: "image"}
+              - {label: "Destacado", name: "featured", widget: "boolean", default: true}
+
+      - label: "Promociones"
+        name: "promotions"
+        file: "content/promotions.json"
+        format: "json"
+        fields:
+          - label: "Promociones"
+            name: ""
+            widget: "list"
+            fields:
+              - {label: "Título", name: "title", widget: "string"}
+              - {label: "Descripción", name: "description", widget: "text"}
+              - {label: "Imagen", name: "image", widget: "image"}
+              - {label: "Texto del botón", name: "button_text", widget: "string", default: "Reservar"}
+              - {label: "Activa", name: "active", widget: "boolean", default: true}
+
+      - label: "Galería"
+        name: "gallery"
+        file: "content/gallery.json"
+        format: "json"
+        fields:
+          - label: "Fotos"
+            name: ""
+            widget: "list"
+            fields:
+              - {label: "Título", name: "title", widget: "string"}
+              - {label: "Imagen", name: "image", widget: "image"}
+
+      - label: "Videos"
+        name: "videos"
+        file: "content/videos.json"
+        format: "json"
+        media_folder: "assets/videos"
+        public_folder: "/assets/videos"
+        fields:
+          - label: "Videos"
+            name: ""
+            widget: "list"
+            fields:
+              - {label: "Título", name: "title", widget: "string"}
+              - {label: "Descripción", name: "description", widget: "text"}
+              - {label: "Video MP4", name: "video", widget: "file", required: false, media_library: {config: {multiple: false}}}
+              - {label: "Link alternativo", name: "link", widget: "string", required: false}
+              - {label: "Activo", name: "active", widget: "boolean", default: true}
+
+      - label: "Referidas"
+        name: "referrals"
+        file: "content/referrals.json"
+        format: "json"
+        fields:
+          - {label: "Título", name: "title", widget: "string"}
+          - {label: "Introducción", name: "intro", widget: "text"}
+          - label: "Reglas"
+            name: "rules"
+            widget: "list"
+            field: {label: "Regla", name: "rule", widget: "string"}

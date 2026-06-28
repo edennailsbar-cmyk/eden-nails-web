@@ -1,0 +1,11 @@
+{
+  "title": "Programa de recomendadas Edén",
+  "intro": "Comparte Edén con tus amigas y ambas ganan beneficios.",
+  "rules": [
+    "La amiga recibe 10% de descuento en 1 servicio al usar el código.",
+    "El código de una amiga se puede usar una sola vez.",
+    "Después de su primera visita, la amiga puede crear su propio código.",
+    "La clienta que recomienda acumula 10% de crédito por cada amiga que realice su servicio.",
+    "El descuento acumulado se valida en el salón antes de aplicarse."
+  ]
+}

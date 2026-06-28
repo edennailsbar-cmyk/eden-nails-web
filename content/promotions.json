@@ -1,0 +1,9 @@
+[
+  {
+    "title": "Promoción destacada",
+    "description": "Consulta nuestras promociones vigentes por WhatsApp y reserva tu horario.",
+    "image": "/assets/images/galeria-01.jpg",
+    "button_text": "Reservar promoción",
+    "active": true
+  }
+]
