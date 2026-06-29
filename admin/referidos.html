@@ -74,55 +74,51 @@ function makeCode(name, phone){
   return "EDEN-"+first+"-"+last4;
 }
 function encodeFormData(data){return new URLSearchParams(data).toString()}
+
+const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbw4H6LyAMR_IkxNmwS83hy9kexNHVIejZXW3lhvl3gSjDray2G8y_lHD8UxXVeo6hhf/exec";
+function jsonpRequest(params){
+  return new Promise((resolve,reject)=>{
+    const callback="edenAdminCallback_"+Date.now()+"_"+Math.floor(Math.random()*100000);
+    params.callback=callback;
+    window[callback]=(data)=>{delete window[callback];script.remove();resolve(data);};
+    const script=document.createElement("script");
+    script.src=GOOGLE_SCRIPT_URL+"?"+new URLSearchParams(params).toString();
+    script.onerror=()=>{delete window[callback];script.remove();reject(new Error("Error de conexión"));};
+    document.body.appendChild(script);
+  });
+}
+
 document.getElementById("ownerRefForm").addEventListener("submit", async function(e){
   e.preventDefault();
-  const name=document.getElementById("nombre").value.trim();
-  const phone=document.getElementById("whatsapp").value.trim();
-  const birthday=document.getElementById("cumpleanos").value;
+  const name=document.getElementById("nombre").value;
+  const phone=document.getElementById("whatsapp").value;
   const code=makeCode(name, phone);
-
   document.getElementById("codigoInput").value=code;
   document.getElementById("origenInput").value=location.href;
   document.getElementById("codigo").textContent=code;
   document.getElementById("codeBox").style.display="block";
   document.getElementById("waBtn").href="https://wa.me/?text="+encodeURIComponent("Hola hermosa 💅 este es tu código de referida de Edén Nails Bar: "+code+". Compártelo con tus amigas para que reciban 10% en su primer servicio. Cuando ellas se atiendan usando tu código, tú ganas 10% para tu próximo servicio.");
-
   try{
-    const result = await edenJsonp({
+    const result = await jsonpRequest({
       action:"createCode",
       nombre:name,
       whatsapp:phone,
-      cumpleanos:birthday
+      cumpleanos:document.getElementById("cumpleanos").value
     });
-
-    if(!result.ok){
-      document.getElementById("err").textContent=result.message || "No se pudo guardar.";
-      document.getElementById("err").style.display="block";
-      document.getElementById("ok").style.display="none";
-      return;
-    }
-
-    if(result.codigo){
-      document.getElementById("codigoInput").value=result.codigo;
+    if(result.ok){
       document.getElementById("codigo").textContent=result.codigo;
+      document.getElementById("codigoInput").value=result.codigo;
+      document.getElementById("codeBox").style.display="block";
       document.getElementById("waBtn").href="https://wa.me/?text="+encodeURIComponent("Hola hermosa 💅 este es tu código de referida de Edén Nails Bar: "+result.codigo+". Compártelo con tus amigas para que reciban 10% en su primer servicio. Cuando ellas se atiendan usando tu código, tú ganas 10% para tu próximo servicio.");
+      document.getElementById("ok").textContent = result.exists ? "Esta clienta ya tenía código. Te lo mostramos aquí." : "Código creado y guardado en Google Sheets.";
+      document.getElementById("ok").style.display="block";
+      document.getElementById("err").style.display="none";
+    }else{
+      document.getElementById("err").textContent=result.message||"No se pudo crear el código.";
+      document.getElementById("err").style.display="block";
     }
-
-    try{
-      await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:encodeFormData(new FormData(e.target))});
-    }catch(netlifyErr){}
-
-    document.getElementById("ok").textContent = result.exists ? "Esta clienta ya tenía código. Se recuperó el código existente." : "Código guardado en Google Sheets.";
-    document.getElementById("ok").style.display="block";
-    document.getElementById("err").style.display="none";
   }catch(error){
     document.getElementById("err").textContent="No se pudo conectar con Google Sheets.";
-    document.getElementById("err").style.display="block";
-  }
-});
-    document.getElementById("ok").style.display="block";
-    document.getElementById("err").style.display="none";
-  }catch(error){
     document.getElementById("err").style.display="block";
   }
 });
@@ -131,30 +127,5 @@ document.getElementById("copyBtn").addEventListener("click", async function(){
   try{await navigator.clipboard.writeText(code); this.textContent="Copiado";}catch(e){alert(code)}
 });
 </script>
-
-<script>
-const EDEN_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4H6LyAMR_IkxNmwS83hy9kexNHVIejZXW3lhvl3gSjDray2G8y_lHD8UxXVeo6hhf/exec";
-function edenJsonp(params) {
-  return new Promise((resolve, reject) => {
-    const callback = "eden_admin_cb_" + Date.now() + "_" + Math.floor(Math.random()*100000);
-    const query = new URLSearchParams(params);
-    query.set("callback", callback);
-    const script = document.createElement("script");
-    window[callback] = (data) => {
-      resolve(data);
-      delete window[callback];
-      script.remove();
-    };
-    script.onerror = () => {
-      delete window[callback];
-      script.remove();
-      reject(new Error("No se pudo conectar con Google Sheets."));
-    };
-    script.src = EDEN_APPS_SCRIPT_URL + "?" + query.toString();
-    document.body.appendChild(script);
-  });
-}
-</script>
-
 </body>
 </html>
