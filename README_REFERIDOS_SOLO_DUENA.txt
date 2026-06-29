@@ -7,7 +7,7 @@ Cambios:
   /admin/referidos.html
 
 Contraseña inicial:
-eden2026
+eden130721
 
 Dónde se guardan:
 Netlify → Proyecto → Formularios → referidas-eden
