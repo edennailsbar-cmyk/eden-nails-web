@@ -1,11 +1,14 @@
 {
-  "title": "Programa de recomendadas Edén",
-  "intro": "Comparte Edén con tus amigas y ambas ganan beneficios.",
+  "title": "Programa de Referidas Edén",
+  "intro": "Gana beneficios compartiendo belleza. Invita a tus amigas y ambas reciben un beneficio exclusivo.",
   "rules": [
-    "La amiga recibe 10% de descuento en 1 servicio al usar el código.",
-    "El código de una amiga se puede usar una sola vez.",
-    "Después de su primera visita, la amiga puede crear su propio código.",
-    "La clienta que recomienda acumula 10% de crédito por cada amiga que realice su servicio.",
-    "El descuento acumulado se valida en el salón antes de aplicarse."
+    "La amiga que usa tu código recibe 10% de descuento en su primer servicio.",
+    "La clienta que recomienda gana 10% de descuento para su próximo servicio.",
+    "El beneficio de la clienta que recomienda se habilita únicamente cuando la amiga realiza y paga su servicio.",
+    "Los descuentos no son acumulables en una misma cita.",
+    "Cada amiga atendida equivale a un 10% para un servicio futuro diferente.",
+    "El código de referida puede ser usado una sola vez por cada nueva clienta.",
+    "Los descuentos no son transferibles ni canjeables por dinero.",
+    "Edén Nails Bar puede verificar la validez de cada referido antes de aplicar el beneficio."
   ]
 }
