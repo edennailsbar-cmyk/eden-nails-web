@@ -42,7 +42,7 @@
 </form>
 
 <form name="uso-codigo-eden" method="POST" data-netlify="true" netlify-honeypot="bot-field-2" hidden>
-  <input type="hidden" name="form-name" value="uso-codigo-eden">
+  
   <input name="bot-field-2">
   <input name="nombre_amiga">
   <input name="whatsapp_amiga">
@@ -97,7 +97,7 @@ function encodeFormData(data){return new URLSearchParams(data).toString();}
 <section class="soft"><div class="wrap split"><div class="photo-frame reveal">${imgTag(settings.hero_image,settings.brand)}</div><div class="card reveal"><h2>${esc(settings.intro_title)}</h2><p>${esc(settings.intro_text)}</p><ul class="checks"><li>Diseños personalizados y elegantes.</li><li>Acabados brillantes tipo cristal.</li><li>Atención con cita previa.</li><li>Servicios de uñas y pestañas en un solo lugar.</li></ul></div></div></section>
 <section><div class="wrap center"><h2 class="title reveal">Servicios favoritos</h2><p class="subtitle reveal">Consulta disponibilidad por WhatsApp y cuéntanos qué diseño quieres realizarte.</p><div class="services">${services.filter(s=>s.featured!==false).map(s=>`<article class="service reveal">${imgTag(s.image,s.title)}<div><h3>${esc(s.title)}</h3><p>${esc(s.description)}</p><p class="price">${esc(s.price)}</p>${waButton()}</div></article>`).join('')}</div></div></section>
 <section id="referidas" class="banner"><div class="wrap"><div class="reveal" style="text-align:center;max-width:900px;margin:0 auto 34px;"><h2>${esc(referrals.title)}</h2><p>${esc(referrals.intro)}</p><ul style="text-align:left;max-width:760px;margin:20px auto;line-height:1.8">${referrals.rules.map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div><div class="referral-forms">
-<div class="card reveal"><h2 style="font-size:34px">Ya tengo un código de referida</h2><p>Registra aquí el código que te compartió tu amiga para solicitar tu 10% de descuento.</p><form class="form" id="useCodeForm" name="uso-codigo-eden" method="POST" data-netlify="true" netlify-honeypot="bot-field-2"><input type="hidden" name="form-name" value="uso-codigo-eden"><p style="display:none"><label>No llenar: <input name="bot-field-2"></label></p><input type="hidden" id="usePageUrlInput" name="pagina_origen"><div><label for="friendName">Tu nombre completo</label><input id="friendName" name="nombre_amiga" required minlength="3" placeholder="Ej: María Rojas"></div><div><label for="friendPhone">Tu WhatsApp</label><input id="friendPhone" name="whatsapp_amiga" required inputmode="tel" pattern="[0-9 +()-]{7,}" placeholder="Ej: 70000000"></div><div><label for="friendCode">Código de referida de tu amiga</label><input id="friendCode" name="codigo_recibido" required minlength="8" placeholder="Ej: EDEN-SHARLYN-1561"></div><div><label for="desiredService">Servicio que deseas</label><input id="desiredService" name="servicio_deseado" required placeholder="Ej: Blindaje en Gel"></div><button class="btn btn-primary" type="submit">Registrar mi código</button></form><div class="success-msg" id="useSuccessMsg">Código registrado. Ahora escríbenos por WhatsApp para confirmar tu cita y validar tu beneficio.</div><div class="error-msg" id="useErrorMsg">El código no existe, está inactivo o este WhatsApp ya usó un beneficio.</div><p class="notice">Todos los campos son obligatorios. El 10% con código de amiga es válido por única vez, para 1 servicio y se valida antes de la atención.</p></div>
+<div class="card reveal"><h2 style="font-size:34px">Ya tengo un código de referida</h2><p>Registra aquí el código que te compartió tu amiga para solicitar tu 10% de descuento.</p><form class="form" id="useCodeForm" name="uso-codigo-eden" method="POST" data-netlify="true" netlify-honeypot="bot-field-2"><div><label for="friendName">Tu nombre completo</label><input id="friendName" name="nombre_amiga" placeholder="Ej: María Rojas" required minlength="3"></div><div><label for="friendPhone">Tu WhatsApp</label><input id="friendPhone" name="whatsapp_amiga" inputmode="tel" placeholder="Ej: 70000000" required pattern="[0-9 +()\-]{7,}"></div><div><label for="friendCode">Código de referida de tu amiga</label><input id="friendCode" name="codigo_recibido" placeholder="Ej: EDEN-SHARLYN-1561" required minlength="8"></div><div><label for="desiredService">Servicio que deseas</label><input id="desiredService" name="servicio_deseado" placeholder="Ej: Blindaje en Gel" required></div><button class="btn btn-primary" type="submit">Registrar mi código</button></form><div class="success-msg" id="useSuccessMsg">¡Tu descuento fue registrado correctamente! Escríbenos por WhatsApp para confirmar tu cita.</div><div class="error-msg" id="useErrorMsg">El código no existe, está inactivo o este WhatsApp ya usó un beneficio.</div><p class="notice">Todos los campos son obligatorios. El 10% con código de amiga es válido por única vez, para 1 servicio y se valida antes de la atención.</p></div>
 </div></div></section>
 <section id="novedades" class="soft"><div class="wrap center"><h2 class="title reveal">Promociones y videos</h2><p class="subtitle reveal">Aquí podrás publicar promociones del mes, reels o videos MP4.</p><div class="updates-grid">${promos.filter(p=>p.active!==false).map(p=>`<article class="update-card reveal">${imgTag(p.image,p.title)}<div><h3>${esc(p.title)}</h3><p>${esc(p.description)}</p><a class="btn btn-outline wa-link" target="_blank">${esc(p.button_text||'Reservar')}</a></div></article>`).join('')}${videos.filter(v=>v.active!==false).map(v=>`<article class="update-card reveal">${v.video?`<video src="${esc(v.video)}" controls playsinline></video>`:`<div style="height:260px;display:grid;place-items:center;background:linear-gradient(135deg,#1d1714,#3c2f25);color:white;font-weight:900;text-align:center;padding:20px">🎥 Video / Reel</div>`}<div><h3>${esc(v.title)}</h3><p>${esc(v.description)}</p><a class="btn btn-outline" href="${esc(v.link||settings.instagram)}" target="_blank">Ver video</a></div></article>`).join('')}</div></div></section>
 <section class="soft"><div class="wrap center"><h2 class="title reveal">Galería de trabajos reales</h2><p class="subtitle reveal">Fotos reales del salón, sin imágenes de stock.</p><div class="gallery">${gallery.map(g=>`<figure class="gallery-card reveal">${imgTag(g.image,g.title)}<figcaption>${esc(g.title)}</figcaption></figure>`).join('')}</div></div></section>
@@ -110,8 +110,200 @@ function encodeFormData(data){return new URLSearchParams(data).toString();}
  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
  $("#refForm").addEventListener("submit",async e=>{e.preventDefault();const f=e.target,name=$("#clientName").value,phone=$("#clientPhone").value,code=makeCode(name,phone);$("#refCode").textContent=code;$("#refCodeInput").value=code;$("#pageUrlInput").value=location.href;$("#codeCard").style.display="block";$("#shareBtn").href="https://wa.me/?text="+encodeURIComponent("Hola hermosa 💅 te comparto mi código de Edén Nails Bar: "+code+". Con este código tienes 10% de descuento en tu reserva. Página: "+location.href);try{await fetch("/api/referrals",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:'created', nombre:name, whatsapp:phone, cumpleanos:$("#clientBirthday").value, codigo:code})}); await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:encodeFormData(new FormData(f))});$("#successMsg").style.display="block"}catch(err){$("#errorMsg").style.display="block"}});
  $("#copyBtn").addEventListener("click",async()=>{try{await navigator.clipboard.writeText($("#refCode").textContent);$("#copyBtn").textContent="Código copiado"}catch(e){alert($("#refCode").textContent)}});
- $("#useCodeForm").addEventListener("submit",async e=>{e.preventDefault();const f=e.target;$("#usePageUrlInput").value=location.href;try{await fetch("/api/referrals",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:'used', nombre:$("#friendName").value, whatsapp:$("#friendPhone").value, codigo:$("#friendCode").value, servicio:$("#desiredService").value})}); await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:encodeFormData(new FormData(f))});$("#useSuccessMsg").style.display="block"}catch(err){$("#useErrorMsg").style.display="block"}});
+  await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:encodeFormData(new FormData(f))});$("#useSuccessMsg").style.display="block"}catch(err){$("#useErrorMsg").style.display="block"}});
+})();
+
+const useCodeFormEl = document.getElementById("useCodeForm");
+if(useCodeFormEl){
+  useCodeFormEl.addEventListener("submit", async function(e){
+    e.preventDefault();
+    e.stopPropagation();
+
+    const success = document.getElementById("useSuccessMsg");
+    const error = document.getElementById("useErrorMsg");
+    const btn = this.querySelector("button[type='submit']");
+
+    if(success) success.style.display = "none";
+    if(error) error.style.display = "none";
+
+    const nombre = document.getElementById("friendName").value.trim();
+    const whatsapp = document.getElementById("friendPhone").value.trim();
+    const codigo = document.getElementById("friendCode").value.trim().toUpperCase();
+    const servicio = document.getElementById("desiredService").value.trim();
+
+    if(!nombre || !whatsapp || !codigo || !servicio){
+      if(error){
+        error.textContent = "Todos los campos son obligatorios.";
+        error.style.display = "block";
+      }
+      return false;
+    }
+
+    const originalText = btn ? btn.textContent : "";
+    if(btn){
+      btn.textContent = "Validando código...";
+      btn.disabled = true;
+    }
+
+    try{
+      const result = await jsonpRequest({
+        action: "useCode",
+        nombre_amiga: nombre,
+        whatsapp_amiga: whatsapp,
+        codigo_usado: codigo,
+        servicio: servicio
+      });
+
+      if(result && result.ok){
+        if(success){
+          success.textContent = (result.message || "Código registrado correctamente.") + " Referida por: " + (result.referido_por || "clienta Edén") + ". Escríbenos por WhatsApp para confirmar tu cita.";
+          success.style.display = "block";
+        }
+        this.reset();
+      }else{
+        if(error){
+          error.textContent = (result && result.message) ? result.message : "Este código no fue emitido por Edén Nails Bar & Makeup.";
+          error.style.display = "block";
+        }
+      }
+    }catch(err){
+      if(error){
+        error.textContent = "No se pudo validar el código. Escríbenos por WhatsApp para ayudarte.";
+        error.style.display = "block";
+      }
+    }
+
+    if(btn){
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }
+    return false;
+  });
+}
+
+</script>
+
+<script>
+(function(){
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx163cZ5fy2UutdijY4z_PV1jmjFcLOhl4mnp5YRGgkW3FM25wIxT1sgfmjsF7xf78x/exec";
+
+  function jsonpRequest(params) {
+    return new Promise((resolve, reject) => {
+      const callback = "edenSheetsCb_" + Date.now() + "_" + Math.floor(Math.random() * 100000);
+      params.callback = callback;
+
+      const script = document.createElement("script");
+      window[callback] = function(data) {
+        delete window[callback];
+        if (script && script.parentNode) script.parentNode.removeChild(script);
+        resolve(data);
+      };
+
+      script.onerror = function() {
+        delete window[callback];
+        if (script && script.parentNode) script.parentNode.removeChild(script);
+        reject(new Error("No se pudo conectar con Google Sheets"));
+      };
+
+      script.src = GOOGLE_SCRIPT_URL + "?" + new URLSearchParams(params).toString();
+      document.body.appendChild(script);
+    });
+  }
+
+  function showMessage(id, text) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = text;
+    el.style.display = "block";
+  }
+
+  function hideMessage(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.style.display = "none";
+  }
+
+  function setupUseCodeValidation() {
+    const oldForm = document.getElementById("useCodeForm");
+    if (!oldForm) return;
+
+    const form = oldForm.cloneNode(true);
+    oldForm.parentNode.replaceChild(form, oldForm);
+
+    form.setAttribute("novalidate", "novalidate");
+    form.removeAttribute("method");
+    form.removeAttribute("action");
+    form.removeAttribute("name");
+    form.removeAttribute("data-netlify");
+    form.removeAttribute("netlify-honeypot");
+
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      hideMessage("useSuccessMsg");
+      hideMessage("useErrorMsg");
+
+      const nombre = (document.getElementById("friendName")?.value || "").trim();
+      const whatsapp = (document.getElementById("friendPhone")?.value || "").trim();
+      const codigo = (document.getElementById("friendCode")?.value || "").trim().toUpperCase();
+      const servicio = (document.getElementById("desiredService")?.value || "").trim();
+
+      if (!nombre || !whatsapp || !codigo || !servicio) {
+        showMessage("useErrorMsg", "Todos los campos son obligatorios.");
+        return false;
+      }
+
+      const btn = form.querySelector("button[type='submit']");
+      const originalText = btn ? btn.textContent : "";
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = "Validando código...";
+      }
+
+      try {
+        const result = await jsonpRequest({
+          action: "useCode",
+          nombre_amiga: nombre,
+          whatsapp_amiga: whatsapp,
+          codigo_usado: codigo,
+          servicio: servicio
+        });
+
+        if (result && result.ok) {
+          showMessage(
+            "useSuccessMsg",
+            (result.message || "¡Tu descuento fue registrado correctamente!") +
+            " Referida por: " + (result.referido_por || "clienta Edén") +
+            ". Escríbenos por WhatsApp para confirmar tu cita."
+          );
+          form.reset();
+        } else {
+          showMessage(
+            "useErrorMsg",
+            (result && result.message) ? result.message : "Este código no existe o no fue emitido por Edén Nails Bar & Makeup."
+          );
+        }
+      } catch (err) {
+        showMessage("useErrorMsg", "No se pudo validar el código. Escríbenos por WhatsApp para ayudarte.");
+      }
+
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+
+      return false;
+    }, true);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupUseCodeValidation);
+  } else {
+    setupUseCodeValidation();
+  }
 })();
 </script>
+
 </body>
 </html>

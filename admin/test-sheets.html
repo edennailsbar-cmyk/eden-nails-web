@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test Google Sheets · Edén</title>
+<body style="font-family:Arial;padding:30px">
+<h1>Test de conexión Google Sheets</h1>
+<p>Este archivo es solo para pruebas internas.</p>
+<button id="btn">Probar código inventado</button>
+<pre id="out"></pre>
+<script>
+const URL="https://script.google.com/macros/s/AKfycbx163cZ5fy2UutdijY4z_PV1jmjFcLOhl4mnp5YRGgkW3FM25wIxT1sgfmjsF7xf78x/exec";
+function jsonp(params){
+ return new Promise((resolve,reject)=>{
+   const cb="cb"+Date.now();
+   params.callback=cb;
+   window[cb]=(d)=>{delete window[cb];s.remove();resolve(d)};
+   const s=document.createElement("script");
+   s.src=URL+"?"+new URLSearchParams(params).toString();
+   s.onerror=reject;
+   document.body.appendChild(s);
+ });
+}
+document.getElementById("btn").onclick=async()=>{
+ document.getElementById("out").textContent="Probando...";
+ const r=await jsonp({action:"useCode",nombre_amiga:"Test",whatsapp_amiga:"79999999",codigo_usado:"CODIGO-INVENTADO",servicio:"Blindaje"});
+ document.getElementById("out").textContent=JSON.stringify(r,null,2);
+};
+</script>
+</body></html>
