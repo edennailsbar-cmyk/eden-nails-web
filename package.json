@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "build": "echo 'static site'"
+  },
+  "dependencies": {
+    "@netlify/blobs": "latest"
+  }
+}

@@ -1,39 +1,26 @@
-# Edén Nails Bar - Panel propio
+# Edén Nails Bar & Makeup - Panel propio
 
-Esta versión elimina Decap CMS y no requiere Netlify Identity ni Git Gateway.
+Esta versión reemplaza Decap CMS por un panel propio.
 
-## Acceso al panel
-Después de publicar en Netlify:
-`/admin`
+## Para activar el panel
+1. Sube estos archivos al repositorio de GitHub `eden-nails-web` reemplazando los anteriores.
+2. Netlify publicará automáticamente.
+3. En Netlify, entra al proyecto > Variables de entorno.
+4. Crea una variable:
+   - Nombre: `ADMIN_PASSWORD`
+   - Valor: una contraseña privada para dueña del salón.
+5. Vuelve a desplegar el sitio.
+6. Entra a `/admin` y usa esa contraseña.
 
-Contraseña inicial:
-`eden2026`
-
-## Cómo funciona
-El panel permite preparar cambios de:
-- Configuración general
-- Servicios y precios
+## Qué permite editar
+- Portada
+- Servicios
+- Precios
 - Promociones
 - Galería
-- Videos
-- Referidas
+- Videos por link o URL MP4
+- Reglas de referidas
+- Lista privada de códigos creados y usados
 
-Para publicar cambios:
-1. Entra a `/admin`
-2. Edita lo que necesites
-3. Entra a "Publicar cambios"
-4. Descarga los archivos JSON
-5. Súbelos a GitHub en la carpeta `content`, reemplazando los anteriores
-6. Netlify actualizará la página automáticamente
-
-## Videos
-Sube archivos MP4 a:
-`assets/videos/`
-
-Luego en el panel usa rutas como:
-`/assets/videos/reel1.mp4`
-
-## Formularios
-Los datos de referidas se guardan en Netlify Forms:
-- `referidas-eden`
-- `uso-codigo-eden`
+## Nota sobre videos
+Para videos pesados, lo más estable es subirlos a Instagram/TikTok/Drive y pegar el enlace en el panel.
