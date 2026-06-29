@@ -110,8 +110,77 @@ function encodeFormData(data){return new URLSearchParams(data).toString();}
  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
  $("#refForm").addEventListener("submit",async e=>{e.preventDefault();const f=e.target,name=$("#clientName").value,phone=$("#clientPhone").value,code=makeCode(name,phone);$("#refCode").textContent=code;$("#refCodeInput").value=code;$("#pageUrlInput").value=location.href;$("#codeCard").style.display="block";$("#shareBtn").href="https://wa.me/?text="+encodeURIComponent("Hola hermosa 💅 te comparto mi código de Edén Nails Bar: "+code+". Con este código tienes 10% de descuento en tu reserva. Página: "+location.href);try{await fetch("/api/referrals",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:'created', nombre:name, whatsapp:phone, cumpleanos:$("#clientBirthday").value, codigo:code})}); await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:encodeFormData(new FormData(f))});$("#successMsg").style.display="block"}catch(err){$("#errorMsg").style.display="block"}});
  $("#copyBtn").addEventListener("click",async()=>{try{await navigator.clipboard.writeText($("#refCode").textContent);$("#copyBtn").textContent="Código copiado"}catch(e){alert($("#refCode").textContent)}});
- $("#useCodeForm").addEventListener("submit",async e=>{e.preventDefault();const f=e.target;$("#usePageUrlInput").value=location.href;try{await fetch("/api/referrals",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:'used', nombre:$("#friendName").value, whatsapp:$("#friendPhone").value, codigo:$("#friendCode").value, servicio:$("#desiredService").value})}); await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:encodeFormData(new FormData(f))});$("#useSuccessMsg").style.display="block"}catch(err){$("#useErrorMsg").style.display="block"}});
+ $("#useCodeForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const f=e.target;
+  $("#usePageUrlInput").value=location.href;
+  $("#useSuccessMsg").style.display="none";
+  $("#useErrorMsg").style.display="none";
+
+  const name=$("#friendName").value.trim();
+  const phone=$("#friendPhone").value.trim();
+  const code=$("#friendCode").value.trim().toUpperCase();
+  const service=$("#desiredService").value.trim();
+
+  if(!name || !phone || !code || !service){
+    $("#useErrorMsg").textContent="Todos los campos son obligatorios.";
+    $("#useErrorMsg").style.display="block";
+    return;
+  }
+
+  try{
+    const result = await edenJsonp({
+      action:"useCode",
+      nombre_amiga:name,
+      whatsapp_amiga:phone,
+      codigo_usado:code,
+      servicio:service
+    });
+
+    if(!result.ok){
+      $("#useErrorMsg").textContent=result.message || "No se pudo registrar el código.";
+      $("#useErrorMsg").style.display="block";
+      return;
+    }
+
+    try{
+      await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:encodeFormData(new FormData(f))});
+    }catch(err){}
+
+    $("#useSuccessMsg").textContent="Código válido. Tu beneficio quedó registrado. Escríbenos por WhatsApp para confirmar tu cita.";
+    $("#useSuccessMsg").style.display="block";
+    f.reset();
+  }catch(err){
+    $("#useErrorMsg").textContent="No se pudo conectar con la base de datos. Intenta nuevamente o escríbenos por WhatsApp.";
+    $("#useErrorMsg").style.display="block";
+  }
+}); await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:encodeFormData(new FormData(f))});$("#useSuccessMsg").style.display="block"}catch(err){$("#useErrorMsg").style.display="block"}});
 })();
 </script>
+
+<script>
+const EDEN_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4H6LyAMR_IkxNmwS83hy9kexNHVIejZXW3lhvl3gSjDray2G8y_lHD8UxXVeo6hhf/exec";
+function edenJsonp(params) {
+  return new Promise((resolve, reject) => {
+    const callback = "eden_cb_" + Date.now() + "_" + Math.floor(Math.random()*100000);
+    const query = new URLSearchParams(params);
+    query.set("callback", callback);
+    const script = document.createElement("script");
+    window[callback] = (data) => {
+      resolve(data);
+      delete window[callback];
+      script.remove();
+    };
+    script.onerror = () => {
+      delete window[callback];
+      script.remove();
+      reject(new Error("No se pudo conectar con la base de datos."));
+    };
+    script.src = EDEN_APPS_SCRIPT_URL + "?" + query.toString();
+    document.body.appendChild(script);
+  });
+}
+</script>
+
 </body>
 </html>
