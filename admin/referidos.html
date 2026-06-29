@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crear códigos · Edén Nails</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#c9a96e;--gold2:#a67b36;--dark:#15110f;--beige:#f5eee5;--ink:#2b221d;--muted:#6b625d}
+*{box-sizing:border-box}body{margin:0;font-family:'DM Sans',sans-serif;background:linear-gradient(180deg,#fffaf4,#f5eee5);color:var(--ink)}
+.wrap{min-height:100vh;display:grid;place-items:center;padding:24px}.box{width:min(620px,100%);background:white;border:1px solid rgba(201,169,110,.38);border-radius:28px;padding:30px;box-shadow:0 25px 70px rgba(0,0,0,.12)}
+h1{font-family:'Playfair Display',serif;font-size:42px;line-height:1;margin:0 0 10px}.muted{color:var(--muted);line-height:1.6}.field{display:grid;gap:7px;margin:14px 0}label{font-weight:800}
+input{width:100%;padding:14px;border-radius:14px;border:1px solid rgba(201,169,110,.55);font:inherit}.btn{border:0;border-radius:999px;padding:14px 20px;font-weight:900;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--gold2));color:white;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.btn.secondary{background:white;color:var(--ink);border:1px solid rgba(201,169,110,.45)}.codeBox{display:none;margin-top:18px;background:#fff8ec;border:1px solid rgba(201,169,110,.55);border-radius:20px;padding:18px}.code{font-size:27px;font-weight:900;color:var(--gold2);word-break:break-all}.row{display:flex;gap:10px;flex-wrap:wrap}.ok{display:none;background:#eefbf2;border:1px solid #9bd7aa;border-radius:16px;padding:12px;margin:12px 0;font-weight:800;color:#255c31}.err{display:none;background:#fff4f4;border:1px solid #e4a0a0;border-radius:16px;padding:12px;margin:12px 0;font-weight:800;color:#8a2222}.login{display:block}.panel{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="box login" id="login">
+    <h1>Acceso privado</h1>
+    <p class="muted">Esta página es solo para Edén Nails Bar. Aquí se crean códigos de referidas para clientas reales.</p>
+    <div class="field"><label>Contraseña</label><input id="pass" type="password" placeholder="Contraseña"></div>
+    <button class="btn" onclick="login()">Entrar</button>
+  </div>
+
+  <div class="box panel" id="panel">
+    <h1>Crear código de referida</h1>
+    <p class="muted">Usa esta página solo cuando la persona ya sea clienta o cuando tú apruebes entregarle un código.</p>
+
+    <form id="ownerRefForm" name="referidas-eden" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="referidas-eden">
+      <p style="display:none"><label>No llenar: <input name="bot-field"></label></p>
+      <input type="hidden" id="codigoInput" name="codigo_referida">
+      <input type="hidden" id="origenInput" name="pagina_origen">
+      <input type="hidden" name="creado_por" value="Dueña / Edén Nails">
+      <div class="field"><label>Nombre completo de la clienta</label><input id="nombre" name="nombre_completo" required placeholder="Ej: Nela Rojas"></div>
+      <div class="field"><label>WhatsApp de la clienta</label><input id="whatsapp" name="whatsapp" required inputmode="tel" placeholder="Ej: 72121561"></div>
+      <div class="field"><label>Cumpleaños</label><input id="cumpleanos" name="cumpleanos" type="date"></div>
+      <button class="btn" type="submit">Crear y guardar código</button>
+    </form>
+
+    <div class="ok" id="ok">Código guardado en Netlify Forms.</div>
+    <div class="err" id="err">No se pudo guardar. Copia el código y vuelve a intentar.</div>
+
+    <div class="codeBox" id="codeBox">
+      <p><b>Código creado:</b></p>
+      <div class="code" id="codigo"></div>
+      <p class="muted">Compártelo con la clienta para que se lo envíe a sus amigas.</p>
+      <div class="row">
+        <button class="btn secondary" type="button" id="copyBtn">Copiar código</button>
+        <a class="btn" id="waBtn" target="_blank">Enviar por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PASS="eden2026";
+function login(){
+  if(document.getElementById("pass").value===PASS){
+    document.getElementById("login").style.display="none";
+    document.getElementById("panel").style.display="block";
+  }else{
+    alert("Contraseña incorrecta");
+  }
+}
+function normalizeName(name){
+  return name.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zA-Z\s]/g,"").trim().toUpperCase();
+}
+function makeCode(name, phone){
+  const clean=normalizeName(name);
+  const first=(clean.split(/\s+/)[0]||"EDEN").slice(0,8);
+  const last4=(phone||"").replace(/\D/g,"").slice(-4)||Math.floor(1000+Math.random()*9000);
+  return "EDEN-"+first+"-"+last4;
+}
+function encodeFormData(data){return new URLSearchParams(data).toString()}
+document.getElementById("ownerRefForm").addEventListener("submit", async function(e){
+  e.preventDefault();
+  const name=document.getElementById("nombre").value;
+  const phone=document.getElementById("whatsapp").value;
+  const code=makeCode(name, phone);
+  document.getElementById("codigoInput").value=code;
+  document.getElementById("origenInput").value=location.href;
+  document.getElementById("codigo").textContent=code;
+  document.getElementById("codeBox").style.display="block";
+  document.getElementById("waBtn").href="https://wa.me/?text="+encodeURIComponent("Hola hermosa 💅 este es tu código de referida de Edén Nails Bar: "+code+". Compártelo con tus amigas para que reciban 10% en su primer servicio. Cuando ellas se atiendan usando tu código, tú ganas 10% para tu próximo servicio.");
+  try{
+    await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:encodeFormData(new FormData(e.target))});
+    document.getElementById("ok").style.display="block";
+    document.getElementById("err").style.display="none";
+  }catch(error){
+    document.getElementById("err").style.display="block";
+  }
+});
+document.getElementById("copyBtn").addEventListener("click", async function(){
+  const code=document.getElementById("codigo").textContent;
+  try{await navigator.clipboard.writeText(code); this.textContent="Copiado";}catch(e){alert(code)}
+});
+</script>
+</body>
+</html>
