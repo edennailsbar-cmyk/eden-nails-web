@@ -1,14 +1,14 @@
 [
   {
     "title": "Blindaje en Gel",
-    "price": "170 Bs",
+    "price": "Desde 170 Bs",
     "description": "Ideal para uñas naturales fuertes, elegantes y brillantes.",
     "image": "/assets/images/blindaje.jpg",
     "featured": true
   },
   {
     "title": "Soft Gel",
-    "price": "190 Bs",
+    "price": "Desde 190 Bs",
     "description": "Uñas listas al instante, naturales, cómodas y duraderas.",
     "image": "/assets/images/soft-gel.jpg",
     "featured": true
@@ -22,9 +22,23 @@
   },
   {
     "title": "Pestañas",
-    "price": "Lanzamiento 130 Bs",
+    "price": "Desde 130 Bs",
     "description": "Mirada definida, femenina y natural.",
     "image": "/assets/images/pestanas.jpg",
     "featured": true
+  },
+  {
+    "title": "Lifting de pestañas",
+    "price": "80 Bs",
+    "description": "Realce natural de pestañas.",
+    "image": "",
+    "featured": false
+  },
+  {
+    "title": "Depilación de ceja",
+    "price": "30 Bs",
+    "description": "Diseño y limpieza de cejas.",
+    "image": "",
+    "featured": false
   }
 ]
